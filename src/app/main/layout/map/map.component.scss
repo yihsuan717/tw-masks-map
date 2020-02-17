@@ -1,0 +1,50 @@
+.map-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+::ng-deep.leaflet-control-zoom.leaflet-bar.leaflet-control {
+  margin-right: 20px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  a {
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    color: #838383;
+    &.leaflet-control-zoom-in {
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
+    }
+    &.leaflet-control-zoom-out {
+      border-bottom-left-radius: 8px;
+      border-bottom-right-radius: 8px;
+    }
+  }
+}
+
+.widget-mylocation {
+  position: absolute;
+  z-index: 9999;
+  bottom: 96px;
+  right: 20px;
+  width: 32px;
+  height: 32px;
+
+  .widget-mylocation-button {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+    display: block;
+    width: 32px;
+    height: 32px;
+    transition: background-color 0.16s ease-out;
+
+    mat-icon {
+      color: #838383;
+    }
+  }
+}

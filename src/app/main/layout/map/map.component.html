@@ -1,0 +1,10 @@
+<div class="map-container">
+  <div #map [style.height.px]="currentHeight" [style.width.px]="currentWidth"></div>
+</div>
+
+<!-- my location btn-->
+<div class="widget-mylocation">
+  <button mat-icon-button class="widget-mylocation-button" fxLayout="column" fxLayoutAlign="center center" (click)="getMyLocation();">
+    <mat-icon class="s-18">my_location</mat-icon>
+  </button>
+</div>

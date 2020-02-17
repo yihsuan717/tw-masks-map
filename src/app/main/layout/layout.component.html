@@ -1,0 +1,28 @@
+<div class="main">
+
+  <mat-sidenav-container [hasBackdrop]="false">
+
+    <mat-sidenav #snav [mode]="'over'" [opened]="true" [class.is-mobile]="mobileQuery.matches">
+
+      <side-content></side-content>
+
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+
+      <!-- side toogle btn-->
+      <div class="widget-pane-toggle-button-container" [style.left.px]="snav.opened ? 400 : 0">
+        <button mat-icon-button disableRipple class="widget-pane-toggle-button"
+          [class.widget-pane-collapsed]="snav.opened" (click)="snav.toggle()">
+          <mat-icon>arrow_right</mat-icon>
+        </button>
+      </div>
+
+      <!-- leaflet osm map-->
+      <map [snavOpened]="snav.opened"></map>
+
+    </mat-sidenav-content>
+
+  </mat-sidenav-container>
+
+</div>

@@ -1,0 +1,74 @@
+<div class="side-content m-0 w-100-p h-100-p">
+
+  <div class="side-filter">
+    <form [formGroup]="searchForm" novalidate>
+      <div class="searchbox p-8">
+
+        <mat-form-field appearance="outline" class="w-100-p">
+          <mat-label>Outline form field</mat-label>
+          <input type="text" matInput placeholder="Placeholder" formControlName="search" [matAutocomplete]="auto">
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-optgroup *ngFor="let city of getTwCity$ | async" [label]="city.CityName">
+              <mat-option *ngFor="let area of city.AreaList" [value]="area">
+                {{area.AreaName}}
+              </mat-option>
+            </mat-optgroup>
+            <!--
+            <mat-option *ngFor="let city of getTwCity$ | async" [value]="option">
+              {{option.name}}
+            </mat-option> -->
+          </mat-autocomplete>
+          <mat-hint>Hint</mat-hint>
+
+          <div fxLayout="row" fxLayoutAlign="space-between center" matSuffix>
+            <button mat-icon-button [disabled]="!searchForm?.value?.search">
+              <mat-icon class="search-icon">search</mat-icon>
+            </button>
+            <mat-divider [vertical]="true" style="height: 28px"></mat-divider>
+            <button mat-icon-button [disabled]="!searchForm?.value?.search">
+              <mat-icon>clear</mat-icon>
+            </button>
+          </div>
+
+        </mat-form-field>
+
+      </div>
+    </form>
+
+  </div>
+
+  <div class="side-list">
+
+    <cdk-virtual-scroll-viewport itemSize="10" class="h-100-p">
+      <div fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="12px" class="pl-8 pr-4 py-4">
+        <mat-card *cdkVirtualFor="let pharmacy of pharmacys$ | async" class="pharmacy-info mat-elevation-z3">
+          <div class="pharmacy-label"></div>
+
+          <div class="pharmacy-mask">
+
+          </div>
+          <div>
+            <h3 class="pharmacy-title">{{ pharmacy?.properties?.name }}</h3>
+          </div>
+          <div fxLayout="row" fxLayoutAlign="space-between stretch">
+            <div fxLayout="column" fxLayoutAlign="space-between stretch" fxFlex>
+              <span class="pharmacy-detail">{{ pharmacy?.properties?.address }}</span>
+              <span class="pharmacy-detail">{{ pharmacy?.properties?.phone }}</span>
+            </div>
+            <div class="pharmacy-action ml-16 px-8" fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="8px"
+              fxFlex="100px">
+              <button class="pharmacy-action-btn" mat-icon-button matTooltip="於地圖查看">
+                <mat-icon fontSet="material-icons-outlined">directions</mat-icon>
+              </button>
+              <button class="pharmacy-action-btn" mat-icon-button matTooltip="詳細資訊">
+                <mat-icon fontSet="material-icons-outlined">info</mat-icon>
+              </button>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+    </cdk-virtual-scroll-viewport>
+
+  </div>
+
+</div>
