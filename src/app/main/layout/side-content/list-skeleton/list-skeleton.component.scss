@@ -1,0 +1,120 @@
+@import "~@angular/material/theming";
+
+.list-skeleton {
+  .list-card {
+    border-radius: 8px;
+    padding: 10px 16px 10px 24px;
+    .list-card-label {
+      position: absolute;
+      box-sizing: border-box;
+      width: 3px;
+      height: 28px;
+      left: 0;
+      top: 10px;
+      border-top-right-radius: 3px;
+      border-bottom-right-radius: 3px;
+      background-color: rgba(196, 196, 196, 0.4);
+    }
+  }
+  .list-card-header {
+    height: 32px;
+    > .mat-icon {
+      color: rgba(255, 255, 255, 0.14);
+    }
+    > div {
+      height: 28px;
+      width: 100px;
+      border-radius: 16px;
+    }
+  }
+  .mat-list.mat-list-base.list-card-detail-info {
+    padding: 0;
+    .mat-list-item {
+      height: auto;
+      ::ng-deep.mat-list-item-content {
+        padding: 0 4px;
+        .list-card-detail {
+          margin: 4px 0;
+          .mat-icon {
+            color: rgba(0, 0, 0, 0.14);
+          }
+          :nth-child(2) {
+            width: 50px;
+            height: 8px;
+            border-radius: 16px;
+          }
+        }
+      }
+    }
+    .mat-divider-horizontal {
+      width: 70%;
+      &.mat-divider-inset {
+        margin: auto;
+      }
+    }
+  }
+  .list-card-action {
+    > div {
+      margin-left: 8px;
+      border-radius: 12px;
+      :nth-child(1) {
+        margin: 0 0 16px;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+      }
+      :nth-child(2) {
+        width: 60px;
+        height: 14px;
+        border-radius: 12px;
+      }
+    }
+  }
+  .list-card-mask {
+    > div {
+      height: 120px;
+      border-radius: 12px;
+      padding: 14px 20px;
+      @include mat-elevation(1);
+      > div {
+        border-radius: 16px;
+        &:nth-child(1) {
+          margin: 0 0 16px;
+          height: 16px;
+        }
+        &:nth-child(2) {
+          height: 46px;
+        }
+      }
+    }
+  }
+  .list-card-update {
+    > div {
+      height: 20px;
+      width: 80px;
+      border-radius: 16px;
+    }
+  }
+
+  .placeHolderShimmer {
+    background: #f9f9f9;
+    animation-duration: 2s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-name: placeHolderShimmer;
+    animation-timing-function: linear;
+    background-image: linear-gradient(to right, #f9f9f9 0%, #ecebeb 20%, #f9f9f9 40%, #f9f9f9 100%);
+    background-repeat: no-repeat;
+    background-size: 800px 50px;
+    position: relative;
+  }
+
+  @keyframes placeHolderShimmer {
+    0% {
+      background-position: -468px 0;
+    }
+    100% {
+      background-position: 468px 0;
+    }
+  }
+}

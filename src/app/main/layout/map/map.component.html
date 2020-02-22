@@ -2,9 +2,37 @@
   <div #map [style.height.px]="currentHeight" [style.width.px]="currentWidth"></div>
 </div>
 
+<!-- weather widget-->
+<ng-container *ngIf="weatherFetching || weatherInfo">
+  <div class="widget-weather" [style.right.px]="isMobile ? 20 : 66">
+    <ng-container *ngIf="!weatherFetching else fetching">
+      <div class="weather-info" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">
+        <img src="{{'https://openweathermap.org/img/wn/'+weatherInfo?.weather[0]?.icon+'@2x.png'}}">
+        <span>{{ math.round(weatherInfo?.main?.temp) + '°C'}}</span>
+        <span>{{ weatherInfo?.weather[0]?.description }}</span>
+      </div>
+    </ng-container>
+    <ng-template #fetching>
+      <mat-progress-spinner mode="indeterminate" diameter="16">
+      </mat-progress-spinner>
+    </ng-template>
+  </div>
+</ng-container>weatherFetching
+
+<!-- fullscreen btn-->
+<ng-container *ngIf="!isMobile">
+  <div class="widget-fullscreen">
+    <button mat-icon-button class="widget-fullscreen-button" fxLayout="column" fxLayoutAlign="center center"
+      (click)="fullscreenToggle()">
+      <mat-icon>{{ isFullScreen() ? 'fullscreen_exit' : 'fullscreen'}}</mat-icon>
+    </button>
+  </div>
+</ng-container>
+
 <!-- my location btn-->
 <div class="widget-mylocation">
-  <button mat-icon-button class="widget-mylocation-button" fxLayout="column" fxLayoutAlign="center center" (click)="getMyLocation();">
+  <button mat-icon-button class="widget-mylocation-button" fxLayout="column" fxLayoutAlign="center center"
+    (click)="getMyLocation();">
     <mat-icon class="s-18">my_location</mat-icon>
   </button>
 </div>

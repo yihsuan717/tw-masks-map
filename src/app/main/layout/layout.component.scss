@@ -19,11 +19,11 @@
 
       &.is-mobile {
         width: 100%;
-        height: 40%;
       }
     }
 
     .mat-sidenav-content {
+      overflow: hidden;
       .widget-pane-toggle-button-container {
         position: absolute;
         z-index: 9999;

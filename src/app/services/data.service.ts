@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { City, Feature, Data } from '../models/data';
+import { map, tap } from 'rxjs/operators';
+import { City, Feature, GeoJson, OpenWeatherInfo, PageData } from '../models/data';
 
 @Injectable({
   providedIn: 'root'
@@ -11,30 +12,58 @@ export class DataService {
   getTwCityBs: BehaviorSubject<City[]> = new BehaviorSubject([]);
   getTwCity$: Observable<City[]> = this.getTwCityBs.asObservable();
 
-  pharmacysBs: BehaviorSubject<Feature[]> = new BehaviorSubject([]);
-  pharmacys$: Observable<Feature[]> = this.pharmacysBs.asObservable();
+  pharmacysDataBs: BehaviorSubject<PageData> = new BehaviorSubject({} as PageData);
+  pharmacysData$: Observable<PageData> = this.pharmacysDataBs.asObservable();
+
+  loadingBS: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  loading$: Observable<PageData> = this.pharmacysDataBs.asObservable();
 
 
   constructor(private httpClient: HttpClient) { }
 
-  loadPharmacyData() {
-    this.httpClient.get<Data>(
+
+  loadPharmaciesGeoJson() {
+    return this.httpClient.get<GeoJson>(
       `https://raw.githubusercontent.com/kiang/pharmacies/master/json/points.json`
-    ).subscribe(
-      res => {
-        console.log(res);
-        this.pharmacysBs.next(res && res.features && res.features.length ? res.features : []);
-      }
+    ).pipe(tap(res => {
+      // this.pharmacysDataBs.next(res);
+    }));
+  }
+
+
+
+  loadPharmacys(index, size) {
+    return this.httpClient.get<GeoJson>(
+      `https://raw.githubusercontent.com/kiang/pharmacies/master/json/points.json`
+    ).pipe(
+      map(res => {
+        const length = res && res.features ? res.features.length : 0;
+        const startIndex = index * size;
+        const endIndex = startIndex < length ?
+          Math.min(startIndex + size, length) :
+          startIndex + size;
+        console.log(startIndex, endIndex);
+        return {
+          data: length !== 0 ? res.features.slice(startIndex, endIndex) : [],
+          length
+        } as PageData;
+      }),
+      tap(res => {
+        console.log(res, index, size);
+        this.pharmacysDataBs.next(res);
+      })
     );
   }
 
-  loadCity() {
-    this.httpClient.get<City[]>(
+  loadCitys() {
+    return this.httpClient.get<City[]>(
       `assets/json/tw-city.json`
-    ).subscribe(
-      res => {
+    ).pipe(
+      tap(res => {
+        console.log(res);
         this.getTwCityBs.next(res);
-      }
+      })
     );
   }
+
 }

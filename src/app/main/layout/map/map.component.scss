@@ -10,6 +10,7 @@
   margin-right: 20px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
   border-radius: 8px;
+  border: none;
   a {
     width: 32px;
     height: 32px;
@@ -22,6 +23,75 @@
     &.leaflet-control-zoom-out {
       border-bottom-left-radius: 8px;
       border-bottom-right-radius: 8px;
+    }
+  }
+}
+
+.widget-weather {
+  position: absolute;
+  z-index: 9999;
+  top: 16px;
+  // right: 66px;
+  border-radius: 8px;
+  background-color: transparent;
+  cursor: pointer;
+
+  .weather-info {
+    background-color: #fff;
+    border-radius: 8px;
+    display: block;
+    width: 33px;
+    white-space: nowrap;
+    color: rgb(29, 29, 29);
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+    // transition: width 0.5s ease;
+
+    img {
+      min-width: 32px;
+      width: 32px;
+      height: auto;
+    }
+  }
+
+  &:hover {
+    width: auto;
+    .weather-info {
+      width: auto;
+      padding: 0 8px;
+      animation: reveal 1s forwards;
+    }
+  }
+
+  @keyframes reveal {
+    from {
+      clip-path: inset(0 0 0 calc(100% - 32px));
+    }
+    to {
+      clip-path: inset(0 0 0 0);
+    }
+  }
+}
+
+.widget-fullscreen {
+  position: absolute;
+  z-index: 9999;
+  top: 16px;
+  right: 20px;
+  width: 32px;
+  height: 32px;
+
+  .widget-fullscreen-button {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+    display: block;
+    width: 32px;
+    height: 32px;
+    transition: background-color 0.16s ease-out;
+
+    mat-icon {
+      color: #838383;
     }
   }
 }

@@ -4,14 +4,14 @@
 
     <mat-sidenav #snav [mode]="'over'" [opened]="true" [class.is-mobile]="mobileQuery.matches">
 
-      <side-content></side-content>
+      <side-content [isMobile]="mobileQuery.matches" (toggleSnav)="snav.toggle()"></side-content>
 
     </mat-sidenav>
 
     <mat-sidenav-content>
 
       <!-- side toogle btn-->
-      <div class="widget-pane-toggle-button-container" [style.left.px]="snav.opened ? 400 : 0">
+      <div class="widget-pane-toggle-button-container" [style.left.px]="snav.opened ? mobileQuery.matches ? 350 : 400 : 0">
         <button mat-icon-button disableRipple class="widget-pane-toggle-button"
           [class.widget-pane-collapsed]="snav.opened" (click)="snav.toggle()">
           <mat-icon>arrow_right</mat-icon>
@@ -19,7 +19,7 @@
       </div>
 
       <!-- leaflet osm map-->
-      <map [snavOpened]="snav.opened"></map>
+      <map [snavOpened]="snav.opened" [isMobile]="mobileQuery.matches"></map>
 
     </mat-sidenav-content>
 

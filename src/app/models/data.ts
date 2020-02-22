@@ -1,4 +1,9 @@
-export interface Data {
+export interface PageData {
+  data: Feature[];
+  length: number;
+}
+
+export interface GeoJson {
   type: string;
   features: Feature[];
 }
@@ -44,4 +49,61 @@ export interface AreaList {
   ZipCode: string;
   AreaName: string;
   AreaEngName: string;
+}
+
+export interface OpenWeatherInfo {
+  coord: Coord;
+  weather: Weather[];
+  base: string;
+  main: Main;
+  wind: Wind;
+  rain: Rain;
+  clouds: Clouds;
+  dt: number;
+  sys: Sys;
+  id: number;
+  name: string;
+  cod: number;
+}
+
+interface Sys {
+  message: number;
+  country: string;
+  sunrise: number;
+  sunset: number;
+}
+
+interface Clouds {
+  all: number;
+}
+
+interface Rain {
+  '3h': number;
+}
+
+interface Wind {
+  speed: number;
+  deg: number;
+}
+
+interface Main {
+  temp: number;
+  pressure: number;
+  humidity: number;
+  temp_min: number;
+  temp_max: number;
+  sea_level: number;
+  grnd_level: number;
+}
+
+interface Weather {
+  id: number;
+  main: string;
+  description: string;
+  icon: string;
+}
+
+interface Coord {
+  lon: number;
+  lat: number;
 }

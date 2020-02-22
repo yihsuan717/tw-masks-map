@@ -9,6 +9,7 @@ import { ClipboardModule } from '@angular/cdk/clipboard';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { PortalModule } from '@angular/cdk/portal';
 import { ScrollingModule } from '@angular/cdk/scrolling';
+import { ScrollingModule as ExperimentalScrollingModule } from '@angular/cdk-experimental/scrolling';
 import { CdkStepperModule } from '@angular/cdk/stepper';
 import { CdkTableModule } from '@angular/cdk/table';
 import { CdkTreeModule } from '@angular/cdk/tree';
@@ -53,11 +54,16 @@ import { MapComponent } from './layout/map/map.component';
 import { MainRoutingModule } from './main-routing.module';
 import { SideContentComponent } from './layout/side-content/side-content.component';
 
+import { FromNowPipe } from './layout/side-content/pipe/from-now.pipe';
+import { ListSkeletonComponent } from './layout/side-content/list-skeleton/list-skeleton.component';
+
 @NgModule({
   declarations: [
     LayoutComponent,
     MapComponent,
-    SideContentComponent
+    SideContentComponent,
+    FromNowPipe,
+    ListSkeletonComponent
   ],
   imports: [
     CommonModule,
@@ -108,6 +114,7 @@ import { SideContentComponent } from './layout/side-content/side-content.compone
     MatTreeModule,
     PortalModule,
     ScrollingModule,
+    ExperimentalScrollingModule,
     LayoutModule,
 
     MainRoutingModule
