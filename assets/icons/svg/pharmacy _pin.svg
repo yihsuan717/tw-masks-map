@@ -1,0 +1,6 @@
+<svg enable-background="new 0 0 36 58" height="512" viewBox="0 0 36 58" width="512"
+  xmlns="http://www.w3.org/2000/svg">
+  <path d="m18 34.27c-1.024 0-2.022-.106-3-.27v21c0 1.657 1.343 3 3 3s3-1.343 3-3v-21c-.978.164-1.976.27-3 .27z" fill="#e7eced"/>
+  <circle cx="18" cy="18" fill="#dd352e" r="18"/>
+  <circle cx="24" cy="15" fill="#fff" r="5"/>
+</svg>
