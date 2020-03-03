@@ -141,6 +141,9 @@ MIT
 @angular/router
 MIT
 
+@ngx-gallery/core
+MIT
+
 @ngx-pwa/local-storage
 MIT
 The MIT License
