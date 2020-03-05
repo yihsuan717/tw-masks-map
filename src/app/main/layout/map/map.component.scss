@@ -1,9 +1,16 @@
+@import "~@angular/material/theming";
+
 .map-container {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
+
+  #map {
+    // width: 100vw;
+    height: 100%;
+  }
 }
 
 ::ng-deep.leaflet-control-zoom.leaflet-bar.leaflet-control {
@@ -11,6 +18,7 @@
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
   border-radius: 8px;
   border: none;
+  z-index: 9999;
   a {
     width: 32px;
     height: 32px;
@@ -27,6 +35,52 @@
   }
 }
 
+::ng-deep.marker-cluster-large {
+  background-color: rgba(26, 99, 183, 0.3);
+  animation: pulse 2s infinite;
+  > div {
+    background-color: rgba(26, 99, 183, 0.96);
+    > span {
+      color: white;
+      font-weight: 600;
+    }
+  }
+}
+::ng-deep.marker-cluster-medium {
+  background-color: rgba(48, 140, 255, 0.26);
+  animation: pulse 2s infinite;
+  > div {
+    background-color: rgb(48, 140, 255, 0.96);
+    > span {
+      color: white;
+      font-weight: 600;
+    }
+  }
+}
+::ng-deep.marker-cluster-small {
+  background-color: rgba(125, 196, 255, 0.4);
+  animation: pulse 2s infinite;
+  > div {
+    background-color: rgba(125, 196, 255, 0.96);
+    > span {
+      color: rgb(34, 34, 34);
+      font-weight: 500;
+    }
+  }
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(26, 99, 183, 0.26);
+  }
+  70% {
+    box-shadow: 0 0 0 12px rgba(26, 99, 183, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(26, 99, 183, 0);
+  }
+}
+
 .widget-weather {
   position: absolute;
   z-index: 9999;
@@ -37,15 +91,14 @@
   cursor: pointer;
 
   .weather-info {
-    background-color: #fff;
+    background-color: #797979;
     border-radius: 8px;
     display: block;
-    width: 33px;
+    width: 80px;
     white-space: nowrap;
-    color: rgb(29, 29, 29);
+    color: #ffffff;
     overflow: hidden;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
-    // transition: width 0.5s ease;
 
     img {
       min-width: 32px;
@@ -54,23 +107,23 @@
     }
   }
 
-  &:hover {
-    width: auto;
-    .weather-info {
-      width: auto;
-      padding: 0 8px;
-      animation: reveal 1s forwards;
-    }
-  }
+  // &:hover, &:active, &:focus {
+  //   width: auto;
+  //   .weather-info {
+  //     width: auto;
+  //     padding: 0 8px;
+  //     animation: reveal 1s forwards;
+  //   }
+  // }
 
-  @keyframes reveal {
-    from {
-      clip-path: inset(0 0 0 calc(100% - 32px));
-    }
-    to {
-      clip-path: inset(0 0 0 0);
-    }
-  }
+  // @keyframes reveal {
+  //   from {
+  //     clip-path: inset(0 0 0 calc(100% - 32px));
+  //   }
+  //   to {
+  //     clip-path: inset(0 0 0 0);
+  //   }
+  // }
 }
 
 .widget-fullscreen {
@@ -115,6 +168,165 @@
 
     mat-icon {
       color: #838383;
+    }
+  }
+}
+
+::ng-deep.leaflet-container {
+  a.leaflet-popup-close-button {
+    top: 4px;
+    right: 4px;
+    width: 24px;
+    height: 24px;
+    font-size: 24px;
+  }
+}
+
+::ng-deep.leaflet-popup-content-wrapper {
+  .leaflet-popup-content {
+    margin: 0;
+    .pharmacyPopup {
+      font-family: Roboto, "Helvetica Neue", sans-serif;
+      &-divider {
+        height: 0;
+        border-bottom: 1px solid #e6e6e6;
+      }
+      &__title {
+        padding: 16px 18px 16px;
+        flex-direction: row;
+        box-sizing: border-box;
+        display: flex;
+        place-content: center start;
+        align-items: center;
+        color: #161616;
+        font-size: 20px;
+        font-weight: 600;
+        line-height: 28px;
+        margin: 0;
+        white-space: normal;
+        .material-icons-two-tone {
+          color: white;
+          margin-right: 8px;
+        }
+      }
+      &__info {
+        padding: 10px 18px;
+      }
+      &__detail {
+        flex-direction: row;
+        box-sizing: border-box;
+        display: flex;
+        place-content: center start;
+        align-items: center;
+        font-size: 13px;
+        line-height: 1.5;
+        color: #70757a;
+        .material-icons-outlined {
+          color: #70757a;
+          margin-right: 8px;
+          font-size: 16px;
+          width: 16px;
+          height: 16px;
+          min-width: 16px;
+          min-height: 16px;
+          line-height: 16px;
+        }
+      }
+      &__mask {
+        padding: 10px 18px;
+        flex-direction: row;
+        box-sizing: border-box;
+        display: flex;
+        place-content: center space-between;
+        align-items: center;
+        > div {
+          position: relative;
+          overflow: hidden;
+          border-radius: 12px;
+          padding: 8px;
+          flex-direction: column;
+          box-sizing: border-box;
+          display: flex;
+          place-content: stretch space-between;
+          align-items: stretch;
+          flex: 1 1 100%;
+          max-width: 45%;
+          @include mat-elevation(2);
+
+          &:hover {
+            @include mat-elevation(6);
+          }
+
+          &.adults {
+            background-color: #eef7ff;
+            color: #4285f4;
+            > mat-icon {
+              color: #cfe8ff;
+            }
+            &:hover {
+              background-color: #f4faff;
+            }
+          }
+          &.childs {
+            background-color: #fff9ef;
+            color: #f8c019;
+            > mat-icon {
+              color: #ffecce;
+            }
+            &:hover {
+              background-color: #fff8ec;
+            }
+          }
+          &.none {
+            background-color: #ebebeb;
+            color: #7f7f7f;
+            > mat-icon {
+              color: #d1d1d1;
+            }
+            &:hover {
+              background-color: #f0f0f0;
+            }
+          }
+
+          & {
+            > .text {
+              > span {
+                font-size: 24px;
+                font-weight: 500;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+              }
+            }
+          }
+        }
+      }
+      &__action {
+        padding: 4px 14px;
+        display: flex;
+        flex-direction: row;
+        place-content: center center;
+        align-items: center;
+        a.google_map {
+          display: flex;
+          flex-direction: row;
+          place-content: center center;
+          align-items: center;
+          color: #1a73e8;
+          font-size: 14px;
+          font-weight: 500;
+          line-height: 1.25rem;
+          padding: 8px 24px;
+          border-radius: 16px;
+          &:hover {
+            background-color: #e8f0fe;
+          }
+          > img {
+            width: auto;
+            height: 18px;
+            margin-right: 4px;
+          }
+        }
+      }
     }
   }
 }

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { SplashScreenService } from 'src/@core/services/splash-screen.service';
 
 @Component({
   selector: 'app',
@@ -7,4 +8,10 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'tw-masks-map';
+
+  constructor(
+    private splashScreenService: SplashScreenService
+  ) {
+  }
+
 }

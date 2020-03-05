@@ -1,17 +1,28 @@
 <div class="side-content m-0 w-100-p h-100-p">
-  <div class="side-filter">
-
+  <div class="side-filter px-8 pb-8">
     <div class="header" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="8px">
-      <mat-icon class="s-48" svgIcon="svg:mask"></mat-icon>
+      <mat-icon class="s-48 mask_logo" svgIcon="svg:mask"></mat-icon>
+
+      <mat-icon fontSet="material-icons-outlined" class="s-16">today</mat-icon>
       {{ nowDate }} <span class="day"> {{ today }}</span>
+      <span class="announcement" (click)="openAnnouncementImg()">
+        最新公告
+        <mat-icon class="s-24" svgIcon="svg:tap"></mat-icon>
+      </span>
     </div>
 
     <form [formGroup]="searchForm" novalidate>
-      <div class="searchbox px-8 pb-8" fxLayoutAlign="space-between stretch">
+      <div class="searchbox mb-8" fxLayout="row" fxLayoutAlign="space-between stretch">
 
         <mat-form-field appearance="outline" fxFlex>
-          <mat-label></mat-label>
-          <input type="text" matInput placeholder="" formControlName="search" [matAutocomplete]="auto">
+          <!-- <button mat-icon-button matPrefix type="button" id="searchbox_helper_btn">
+            <mat-icon>help_outline</mat-icon>
+          </button> -->
+          <!-- <div id="searchbox_helper_tooltip">
+            XXXX
+          </div> -->
+          <input type="text" matInput placeholder="輸入 藥局名稱、住址、縣市區鄉鎮" formControlName="searchStr"
+            [matAutocomplete]="auto" [disabled]="(dataService.loading$ | async) || processing">
           <mat-autocomplete #auto="matAutocomplete">
             <!-- <mat-optgroup *ngFor="let city of getTwCity$ | async" [label]="city.CityName">
               <mat-option *ngFor="let area of city.AreaList" [value]="area">
@@ -23,122 +34,176 @@
               {{option.name}}
             </mat-option> -->
           </mat-autocomplete>
-          <mat-hint> </mat-hint>
+          <mat-hint></mat-hint>
 
           <div fxLayout="row" fxLayoutAlign="space-between center" matSuffix>
-            <button mat-icon-button [disabled]="!searchForm?.value?.search">
-              <mat-icon class="blue-icon">search</mat-icon>
-            </button>
-            <mat-divider [vertical]="true" style="height: 28px"></mat-divider>
-            <button mat-icon-button [disabled]="!searchForm?.value?.search">
+            <button mat-icon-button type="button" [disabled]="!searchForm?.value?.searchStr"
+              (click)="searchForm.get('searchStr').reset('')">
               <mat-icon>clear</mat-icon>
             </button>
+            <mat-divider [vertical]="true" style="height: 28px"></mat-divider>
+            <ng-container *ngIf="(dataService.loading$ | async) || processing else refreshBtn">
+              <color-spinner [size]="20" class="mx-4"></color-spinner>
+            </ng-container>
+            <ng-template #refreshBtn>
+              <button mat-icon-button type="button" (click)="refreshData($event)">
+                <mat-icon class="blue-icon">refresh</mat-icon>
+              </button>
+            </ng-template>
           </div>
         </mat-form-field>
 
         <ng-container *ngIf="isMobile">
-          <button mat-button fxFlex="68px" class="p-0" (click)="_toggleSnav()">
-            <mat-icon fontSet="material-icons-outlined" class="s-24 blue-icon">swap_horiz</mat-icon>
-            地圖
+          <button mat-button fxFlex="68px" fxFlexAlign="center" class="p-0" (click)="_toggleSnav()">
+            <div fxLayout="column" fxLayoutAlign="center center">
+              <mat-icon class="s-28 mb-4" svgIcon="svg:map"></mat-icon>
+              切換地圖
+            </div>
           </button>
         </ng-container>
       </div>
-    </form>
 
-  </div>
-
-  <div class="side-list">
-
-    <!-- <app-list-skeleton></app-list-skeleton> -->
-
-    <ng-container *ngIf="dataService.pharmacysData$ | async as pharmacysData">
-      <cdk-virtual-scroll-viewport itemSize="150" (scrolledIndexChange)="scrolling($event)" autosize>
-        <div fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="12px" class="pl-8 pr-4 py-12">
-          <mat-card *cdkVirtualFor="let pharmacy of pharmacysData?.data; trackBy: trackByFn"
-            class="pharmacy-info mat-elevation-z3">
-            <div class="pharmacy-label"></div>
-            <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">
-              <mat-icon fontSet="material-icons-two-tone" class="s-32 local_pharmacy">local_pharmacy</mat-icon>
-              <h1 class="pharmacy-title">{{ pharmacy?.properties?.name}}</h1>
-            </div>
-            <div class="mt-8" fxLayout="row" fxLayoutAlign="space-between stretch">
-              <mat-list class="pharmacy-detail-info">
-                <mat-list-item>
-                  <div class="pharmacy-detail" matTooltip="地址" fxLayout="row" fxLayoutAlign="start center"
-                    fxLayoutGap="8px">
-                    <mat-icon fontSet="material-icons-outlined" class="s-16">location_on</mat-icon>
-                    <span>{{ pharmacy?.properties?.address }}</span>
-                  </div>
-                </mat-list-item>
-                <mat-divider [inset]="true"></mat-divider>
-                <mat-list-item>
-                  <div class="pharmacy-detail" matTooltip="電話" fxLayout="row" fxLayoutAlign="start center"
-                    fxLayoutGap="8px">
-                    <mat-icon fontSet="material-icons-outlined" class="s-16">phone</mat-icon>
-                    <span>{{ pharmacy?.properties?.phone }}</span>
-                  </div>
-                </mat-list-item>
-                <mat-divider [inset]="true"></mat-divider>
-                <mat-list-item>
-                  <div class="pharmacy-detail" matTooltip="備註" fxLayout="row" fxLayoutAlign="start center"
-                    fxLayoutGap="8px">
-                    <mat-icon fontSet="material-icons-outlined" class="s-16">event_note</mat-icon>
-                    <span>{{ pharmacy?.properties?.note }}</span>
-                  </div>
-                </mat-list-item>
-              </mat-list>
-              <div class="pharmacy-action ml-16 px-8" fxLayout="row" fxLayoutAlign="space-around center"
-                fxLayoutGap="8px" fxFlex="150px">
-                <div class="pharmacy-action-wrapper" fxLayout="column" fxLayoutAlign="center center">
-                  <a class="pharmacy-action-btn" mat-icon-button
-                    href="{{'https://www.google.com/maps/search/?api=1&query='+pharmacy?.properties?.address}}"
-                    target="_blank" rel="noopener noreferrer">
-                    <mat-icon fontSet="material-icons-outlined">directions</mat-icon>
-                  </a>
-                  <div class="pt-8">於地圖查看</div>
-                </div>
-                <div class="pharmacy-action-wrapper" fxLayout="column" fxLayoutAlign="center center">
-                  <button class="pharmacy-action-btn" mat-icon-button>
-                    <mat-icon fontSet="material-icons-outlined">info</mat-icon>
-                  </button>
-                  <div class="pt-8">詳細資訊</div>
-                </div>
-              </div>
-            </div>
-            <div class="pharmacy-mask mt-16" fxLayout="row" fxLayoutAlign="space-between stretch">
-              <div class="mask adults" [class.none]="pharmacy?.properties?.mask_adult === 0" fxFlex="46">
-                <div fxLayout="column" fxLayoutAlign="center start">
-                  <h3 class="mat-h3 m-0">成人口罩</h3>
-                  <div>
-                    <span class="mat-display-2">{{ pharmacy?.properties?.mask_adult }}</span>
-                    片
-                  </div>
-                </div>
-                <mat-icon fontSet="material-icons-outlined" class="s-80">face</mat-icon>
-              </div>
-              <div class="mask childs" [class.none]="pharmacy?.properties?.mask_child === 0" fxFlex="46">
-                <div fxLayout="column" fxLayoutAlign="center start">
-                  <h3 class="mat-h3  m-0">兒童口罩</h3>
-                  <div>
-                    <span class="mat-display-2">{{ pharmacy?.properties?.mask_child }}</span>
-                    片
-                  </div>
-                </div>
-                <mat-icon fontSet="material-icons-outlined" class="s-80">child_care</mat-icon>
-              </div>
-            </div>
-            <div class="mt-8" fxLayout="row" fxLayoutAlign="end stretch">
-              <span class="mat-caption last-update"
-                matTooltip="{{ pharmacy?.properties?.updated | date: 'yyyy-mm-dd hh:mm:ss'}}">{{ (pharmacy?.properties?.updated | fromNow) + ' 更新'}}</span>
-            </div>
-          </mat-card>
+      <div class="filters" fxLayout="row" fxLayoutAlign="sstart center">
+        <div class="h-100-p">
+          <mat-icon class="s-22 mr-8" svgIcon="svg:filter"></mat-icon>
         </div>
-      </cdk-virtual-scroll-viewport>
-      <mat-paginator [length]="pharmacysData?.length" [pageSize]="10" [pageSizeOptions]="[10, 20, 30]"
-        (page)="onPage($event)">
-      </mat-paginator>
-    </ng-container>
-
+        <mat-chip-list class="ml-4" [selectable]="true" [multiple]="true">
+          <mat-chip disableRipple *ngFor="let filter of filterArr" (click)="toggleFilterChip(filter?.id)"
+            [selected]="searchForm?.value?.filters.has(filter?.id)">
+            <mat-icon class="s-16 mr-4" fontSet="material-icons-outlined">{{ filter?.icon }}</mat-icon>
+            {{ filter?.name }}
+          </mat-chip>
+        </mat-chip-list>
+      </div>
+    </form>
   </div>
 
+  <div class="side-content">
+    <div class="side-list" (scroll)="scrollHandler($event)" [class.list-scroll-shadow]="scrollShadow">
+      <div #listTop></div>
+      <ng-container *ngIf="(dataService.loading$ | async) || processing else pharmacyslist">
+        <app-list-skeleton></app-list-skeleton>
+      </ng-container>
+      <ng-template #pharmacyslist>
+        <ng-container *ngIf="pagePharmacysData?.length else empty">
+          <div fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="12px" class="pl-8 pr-4 py-12">
+            <mat-card *ngFor="let pharmacy of pagePharmacysData; trackBy: trackByFn"
+              class="pharmacy-info mat-elevation-z3" (click)="navigatePharmacy(pharmacy?.properties?.id, false)">
+              <div class="pharmacy-label"></div>
+              <div fxLayout="row" fxLayoutAlign="space-between center">
+                <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">
+                  <mat-icon fontSet="material-icons-two-tone" class="s-32 local_pharmacy">local_pharmacy</mat-icon>
+                  <h1 class="pharmacy-title">{{ pharmacy?.properties?.name}}</h1>
+                  <span class="pharmacy-distance"
+                    *ngIf="pharmacy?.properties?.distanceStr">{{ pharmacy?.properties?.distanceStr}}</span>
+                </div>
+                <div>
+                  <favorite-toogle [favorited]="favoritePharmacys.includes(pharmacy?.properties?.id)"
+                    (click)="$event.stopPropagation();toogleFavorite(pharmacy?.properties?.id)"></favorite-toogle>
+
+                  <!-- <ng-container *ngIf="isMobile">
+                    <button mat-icon-button (click)="navigatePharmacy(pharmacy?.properties?.id, true)">
+                      <mat-icon class="nav s-28" fontSet="material-icons-outlined" matTooltip="移動至地圖位置">near_me
+                      </mat-icon>
+                    </button>
+                  </ng-container> -->
+                </div>
+              </div>
+              <div class="mt-8" fxLayout="row" fxLayoutAlign="space-between stretch" fxLayoutGap="8px">
+                <mat-list class="pharmacy-detail-info" fxFlex>
+                  <mat-list-item>
+                    <div class="pharmacy-detail" matTooltip="地址" fxLayout="row" fxLayoutAlign="start center"
+                      fxLayoutGap="8px">
+                      <mat-icon fontSet="material-icons-outlined" class="s-16">location_on</mat-icon>
+                      <span>{{ pharmacy?.properties?.address }}</span>
+                    </div>
+                  </mat-list-item>
+                  <mat-divider [inset]="true"></mat-divider>
+                  <mat-list-item>
+                    <div class="pharmacy-detail" matTooltip="電話" fxLayout="row" fxLayoutAlign="start center"
+                      fxLayoutGap="8px">
+                      <mat-icon fontSet="material-icons-outlined" class="s-16">phone</mat-icon>
+                      <span>{{ pharmacy?.properties?.phone }}</span>
+                    </div>
+                  </mat-list-item>
+                  <mat-divider [inset]="true"></mat-divider>
+                  <mat-list-item>
+                    <div class="pharmacy-detail" matTooltip="公告" fxLayout="row" fxLayoutAlign="start center"
+                      fxLayoutGap="8px">
+                      <mat-icon fontSet="material-icons-outlined" class="s-16">event_note</mat-icon>
+                      <span>{{ pharmacy?.properties?.note || '-' }}</span>
+                    </div>
+                  </mat-list-item>
+                  <mat-divider [inset]="true"></mat-divider>
+                  <mat-list-item>
+                    <div class="pharmacy-detail" matTooltip="店家備註" fxLayout="row" fxLayoutAlign="start center"
+                      fxLayoutGap="8px">
+                      <mat-icon fontSet="material-icons-outlined" class="s-16">announcement</mat-icon>
+                      <span>{{ pharmacy?.properties?.custom_note || '-' }}</span>
+                    </div>
+                  </mat-list-item>
+                </mat-list>
+                <div class="pharmacy-action px-8" fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="8px"
+                  fxFlex="150px">
+                  <div class="pharmacy-action-wrapper" fxLayout="column" fxLayoutAlign="center center">
+                    <a class="pharmacy-action-btn" mat-icon-button
+                      href="{{'https://www.google.com/maps/search/?api=1&query='+pharmacy?.properties?.address}}"
+                      target="_blank" (click)="$event.stopPropagation();">
+                      <mat-icon class="s-30" fontSet="material-icons-outlined">map</mat-icon>
+                    </a>
+                    <div class="pt-8">Google 地圖</div>
+                  </div>
+                  <div class="pharmacy-action-wrapper" fxLayout="column" fxLayoutAlign="center center">
+                    <button class="pharmacy-action-btn" mat-icon-button
+                      (click)="$event.stopPropagation();navigatePharmacy(pharmacy?.properties?.id, true)">
+                      <mat-icon class="s-30" fontSet="material-icons-outlined">near_me</mat-icon>
+                    </button>
+                    <div class="pt-8">導覽至地圖</div>
+                  </div>
+                </div>
+              </div>
+              <div class="pharmacy-mask mt-16" fxLayout="row" fxLayoutAlign="space-between stretch">
+                <div class="mask adults" [class.none]="pharmacy?.properties?.mask_adult === 0" fxFlex="46">
+                  <div fxLayout="column" fxLayoutAlign="center start">
+                    <h3 class="mat-h3 m-0">成人口罩</h3>
+                    <div>
+                      <span class="mat-display-2">{{ pharmacy?.properties?.mask_adult }}</span>
+                      片
+                    </div>
+                  </div>
+                  <mat-icon fontSet="material-icons-outlined" class="s-80">
+                    {{ pharmacy?.properties?.mask_adult === 0 ? 'sentiment_very_dissatisfied' : 'face' }}</mat-icon>
+                </div>
+                <div class="mask childs" [class.none]="pharmacy?.properties?.mask_child === 0" fxFlex="46">
+                  <div fxLayout="column" fxLayoutAlign="center start">
+                    <h3 class="mat-h3  m-0">兒童口罩</h3>
+                    <div>
+                      <span class="mat-display-2">{{ pharmacy?.properties?.mask_child }}</span>
+                      片
+                    </div>
+                  </div>
+                  <mat-icon fontSet="material-icons-outlined" class="s-80">
+                    {{ pharmacy?.properties?.mask_child === 0 ? 'sentiment_very_dissatisfied' : 'child_care' }}
+                  </mat-icon>
+                </div>
+              </div>
+              <div class="mt-8" fxLayout="row" fxLayoutAlign="end stretch">
+                <span class="mat-caption last-update"
+                  matTooltip="{{ pharmacy?.properties?.updated | date: 'yyyy-mm-dd hh:mm:ss'}}">{{ (pharmacy?.properties?.updated | fromNow) + ' 更新'}}</span>
+              </div>
+            </mat-card>
+          </div>
+        </ng-container>
+        <ng-template #empty>
+          <div class="empty h-100-p" fxLayout="column" fxLayoutAlign="center center">
+            <img src="./assets/images/empty.png" />
+            <h2 class="mt-20">空空如也</h2>
+            <span>請嘗試其他更精準關鍵字(店名、縣市名稱等...) 進行搜尋</span>
+          </div>
+        </ng-template>
+      </ng-template>
+    </div>
+    <mat-paginator [length]="length" [pageIndex]="pageIndex" [pageSize]="pageSize" hidePageSize (page)="onPage($event)">
+    </mat-paginator>
+  </div>
 </div>

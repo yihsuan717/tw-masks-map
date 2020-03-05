@@ -3,7 +3,7 @@ export interface PageData {
   length: number;
 }
 
-export interface GeoJson {
+export interface PharmaciesGeoJson {
   type: string;
   features: Feature[];
 }
@@ -107,3 +107,18 @@ interface Coord {
   lon: number;
   lat: number;
 }
+
+export enum FILTERS_TYPE {
+  FAVORITE = 1,
+  DISTANCE = 2
+}
+
+export const FILTERS_ARR = [{
+  id: FILTERS_TYPE.FAVORITE,
+  name: '已收藏',
+  icon: 'bookmark'
+}, {
+  id: FILTERS_TYPE.DISTANCE,
+  name: '附近 2 公里內',
+  icon: 'location_searching',
+}];

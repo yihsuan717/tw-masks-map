@@ -2,14 +2,19 @@
   <div fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="12px" class="list-skeleton pl-8 pr-4 py-12">
     <mat-card class="list-card mat-elevation-z1">
       <div class="list-card-label"></div>
-      <div class="list-card-header" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">
-        <mat-icon fontSet="material-icons-two-tone" class="s-32">local_pharmacy</mat-icon>
-        <div class="placeHolderShimmer"></div>
+      <div class="list-card-header" fxLayout="row" fxLayoutAlign="space-between center">
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">
+          <mat-icon fontSet="material-icons-two-tone" class="s-32">local_pharmacy</mat-icon>
+          <div class="placeHolderShimmer w-80-p"></div>
+        </div>
+        <div>
+          <favorite-toogle [favorited]="false"></favorite-toogle>
+        </div>
       </div>
 
       <div class="mt-8" fxLayout="row" fxLayoutAlign="space-between stretch">
 
-        <mat-list class="list-card-detail-info" fxFlex="200px">
+        <mat-list class="list-card-detail-info" fxFlex="60">
           <mat-list-item>
             <div class="list-card-detail" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">
               <mat-icon fontSet="material-icons-outlined" class="s-16">location_on</mat-icon>
@@ -30,10 +35,17 @@
               <div class="placeHolderShimmer"></div>
             </div>
           </mat-list-item>
+          <mat-divider [inset]="true"></mat-divider>
+          <mat-list-item>
+            <div class="list-card-detail" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">
+              <mat-icon fontSet="material-icons-outlined" class="s-16">announcement</mat-icon>
+              <div class="placeHolderShimmer"></div>
+            </div>
+          </mat-list-item>
         </mat-list>
 
         <div class="list-card-action ml-16 px-8" fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="8px"
-          fxFlex="150px">
+          fxFlex="40">
           <div fxLayout="column" fxLayoutAlign="center center">
             <div class="placeHolderShimmer"></div>
             <div class="pt-8 placeHolderShimmer"></div>

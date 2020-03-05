@@ -14,7 +14,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
   constructor(
     private breakpointObserver: BreakpointObserver,
     private mediaMatcher: MediaMatcher,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
   ) {
 
   }

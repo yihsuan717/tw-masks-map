@@ -13,9 +13,14 @@
     flex: 1;
 
     .mat-sidenav {
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
       width: 400px;
       height: 100%;
+      background-color: rgba(255, 255, 255, 0.9);
+
+      @supports ((-webkit-backdrop-filter: blur(4px)) or (backdrop-filter: blur(4px))) {
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+      }
 
       &.is-mobile {
         width: 100%;
@@ -29,9 +34,10 @@
         z-index: 9999;
         top: 8px;
         left: 0;
-        transition: all 0.45s ease;
+        transition: left 0.25s ease-out;
         background-color: rgba(255, 255, 255, 0.9);
         box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+        border-left: 1px solid #d4d4d4;
 
         button.widget-pane-toggle-button {
           width: 24px;

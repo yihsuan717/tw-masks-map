@@ -56,6 +56,9 @@ import { SideContentComponent } from './layout/side-content/side-content.compone
 
 import { FromNowPipe } from './layout/side-content/pipe/from-now.pipe';
 import { ListSkeletonComponent } from './layout/side-content/list-skeleton/list-skeleton.component';
+import { FavoriteToogleComponent } from './layout/side-content/favorite-toogle/favorite-toogle.component';
+import { ColorSpinnerComponent } from './layout/side-content/color-spinner/color-spinner.component';
+import { AnnouncementImgComponent } from './layout/side-content/dialog/announcement-img/announcement-img.component';
 
 @NgModule({
   declarations: [
@@ -63,7 +66,10 @@ import { ListSkeletonComponent } from './layout/side-content/list-skeleton/list-
     MapComponent,
     SideContentComponent,
     FromNowPipe,
-    ListSkeletonComponent
+    ListSkeletonComponent,
+    FavoriteToogleComponent,
+    ColorSpinnerComponent,
+    AnnouncementImgComponent
   ],
   imports: [
     CommonModule,
@@ -118,6 +124,9 @@ import { ListSkeletonComponent } from './layout/side-content/list-skeleton/list-
     LayoutModule,
 
     MainRoutingModule
+  ],
+  entryComponents: [
+    AnnouncementImgComponent
   ],
   exports: [
     LayoutComponent

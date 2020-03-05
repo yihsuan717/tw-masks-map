@@ -18,13 +18,15 @@
   }
   .list-card-header {
     height: 32px;
-    > .mat-icon {
-      color: rgba(255, 255, 255, 0.14);
-    }
-    > div {
-      height: 28px;
-      width: 100px;
-      border-radius: 16px;
+    > div:first-child {
+      width: 45%;
+      > .mat-icon {
+        color: rgba(255, 255, 255, 0.15);
+      }
+      > div {
+        height: 28px;
+        border-radius: 16px;
+      }
     }
   }
   .mat-list.mat-list-base.list-card-detail-info {

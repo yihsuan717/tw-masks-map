@@ -1,0 +1,7 @@
+.mat-icon.fav {
+  color: rgba(140, 140, 140, 0.7);
+
+  &:hover, &.active {
+    color: rgba(253, 228, 0, 0.95);
+  }
+}
