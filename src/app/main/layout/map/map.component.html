@@ -32,6 +32,6 @@
 <div class="widget-mylocation">
   <button mat-icon-button class="widget-mylocation-button" fxLayout="column" fxLayoutAlign="center center" matTooltip="我的位置"
     (click)="getMyLocation();">
-    <mat-icon class="s-18">my_location</mat-icon>
+    <mat-icon class="s-18" [class.s-24]="isMobile">my_location</mat-icon>
   </button>
 </div>

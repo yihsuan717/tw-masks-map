@@ -1,3 +1,5 @@
+@import "src/@core/scss/core";
+
 .main {
   display: flex;
   flex-direction: column;
@@ -46,6 +48,17 @@
           &.widget-pane-collapsed {
             -webkit-transform: scaleX(-1);
             transform: scaleX(-1);
+          }
+        }
+
+        @include media-breakpoint("xs") {
+          border-top-right-radius: 16px;
+          border-bottom-right-radius: 16px;
+          button.widget-pane-toggle-button {
+            width: 48px;
+            .mat-icon {
+              color: #4285f4;
+            }
           }
         }
       }

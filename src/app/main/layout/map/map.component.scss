@@ -1,4 +1,4 @@
-@import "~@angular/material/theming";
+@import "src/@core/scss/core";
 
 .map-container {
   position: absolute;
@@ -32,6 +32,10 @@
       border-bottom-left-radius: 8px;
       border-bottom-right-radius: 8px;
     }
+  }
+
+  @include media-breakpoint("xs") {
+    display: none;
   }
 }
 
@@ -91,7 +95,7 @@
   cursor: pointer;
 
   .weather-info {
-    background-color: #797979;
+    background-color: rgba(121, 121, 121, 0.96);
     border-radius: 8px;
     display: block;
     width: 80px;
@@ -168,6 +172,23 @@
 
     mat-icon {
       color: #838383;
+    }
+  }
+
+  @include media-breakpoint("xs") {
+    bottom: 36px;
+    width: 56px;
+    height: 56px;
+
+    .widget-mylocation-button {
+      background-color: rgba(255, 255, 255, 0.9);
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+
+      .mat-icon {
+        color: #4285f4;
+      }
     }
   }
 }
